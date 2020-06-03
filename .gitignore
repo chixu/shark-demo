@@ -1,0 +1,7 @@
+src/**/*.js
+tests/**/*.js
+.DS_Store
+**/.idea
+node_modules
+engine
+bin

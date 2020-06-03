@@ -1,0 +1,30 @@
+{
+  "name": "shark",
+  "version": "0.0.1",
+  "description": "My PIXI Game Engine",
+  "main": "app.js",
+  "dependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "browser-sync": "^2.26.3",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-htmlmin": "^5.0.1",
+    "gulp-rename": "^2.0.0",
+    "gulp-uglify": "^3.0.2",
+    "pixi.js": "^5.2.4",
+    "ts-loader": "^5.3.1",
+    "typescript": "^3.2.2",
+    "webpack": "^4.27.1",
+    "xmldom": "^0.3.0",
+    "yargs": "^12.0.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "this is a test scripts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": ""
+}
