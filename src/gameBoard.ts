@@ -23,27 +23,18 @@ export class GameBoard extends DisplayObject2 {
     message: LangLabel;
     gameContainer: DisplayObject2;
 
-    constructor(config) {
-        super(config);
-        console.log("GameBoard: true");
+    // constructor(config) {
+    //     super(config);
+    //     console.log("GameBoard: true");
 
-        let bg = shark.factory.create(Rectangle, `height:${this.tileSize * this.numRows};width:${this.tileSize * this.numCols};color:#bedf62`);
-        this.addChild(bg);
-        this.gameContainer = new DisplayObject2({});
-        this.addChild(this.gameContainer);
-        this.init();
-        shark.eventBus.on('key-up-w', this.up, this);
-        shark.eventBus.on('key-up-s', this.down, this);
-        shark.eventBus.on('key-up-a', this.left, this);
-        shark.eventBus.on('key-up-d', this.right, this);
-        shark.eventBus.on('key-down- ', this.speedUp, this);
-        shark.eventBus.on('key-up- ', this.speedDown, this);
-        // shark.eventBus.on('key-s', ()=>this.direction = Direction.Down);
-    }
+
+    //     // shark.eventBus.on('key-s', ()=>this.direction = Direction.Down);
+    // }
 
     public startGame() {
         if (!this.started) {
-            this.message.visible = false;
+
+            this.message.value = shark.config.isMobile ? "" : "{{gamedescweb}}";
             this.update();
             this.started = true;
         }
@@ -73,9 +64,18 @@ export class GameBoard extends DisplayObject2 {
         if (this.direction != Direction.Left) this.direction = Direction.Right
     }
 
+    public spaceUp() {
+        this.startGame();
+        this.speedUp();
+    }
+
+    public spaceDown() {
+        this.startGame();
+        this.speedDown();
+    }
+
     init() {
         this.gameContainer.removeChildren();
-        if (this.message) this.message.visible = true;
         this.speed = 300;
         this.started = false;
         this.snake = [[Math.floor(this.numCols / 2), Math.floor(this.numRows / 2)]];
@@ -160,6 +160,26 @@ export class GameBoard extends DisplayObject2 {
     drwaTile(cords: number[], color = "#999999") {
         let tile = shark.factory.create(Rectangle, `height:${this.tileSize};width:${this.tileSize};color:${color};x:${cords[1] * this.tileSize};y:${cords[0] * this.tileSize}`)
         this.gameContainer.addChild(tile);
+    }
+
+    public created(scene) {
+        super.created(scene);
+        if (this.config.numRows)
+            this.numRows = parseInt(this.config.numRows);
+        if (this.config.numCols)
+            this.numCols = parseInt(this.config.numCols);
+        let color = this.config.bgcolor || "#bedf62";
+        let bg = shark.factory.create(Rectangle, `height:${this.tileSize * this.numRows};width:${this.tileSize * this.numCols};color:${color}`);
+        this.addChild(bg);
+        this.gameContainer = new DisplayObject2({});
+        this.addChild(this.gameContainer);
+        this.init();
+        shark.eventBus.on('key-up-w', this.up, this);
+        shark.eventBus.on('key-up-s', this.down, this);
+        shark.eventBus.on('key-up-a', this.left, this);
+        shark.eventBus.on('key-up-d', this.right, this);
+        shark.eventBus.on('key-down- ', this.spaceUp, this);
+        shark.eventBus.on('key-up- ', this.spaceDown, this);
     }
 
 }
